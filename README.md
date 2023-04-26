@@ -48,9 +48,18 @@ The commit message for adding yourself as a maintainer should be: `maintainers: 
 name-of-plugin = callPackage ./name-of-plugin.nix { };
 ```
 
-- Test build: `nix build .#obs-studio-plugins.name-of-plugin --tarball-ttl 0`
+- Commit changes locally
+  - Message for new OBS Studio plugins should be: `obs-studio-plugins.name-of-plugin: init at x.y.z` where x.y.z is the version number or commit reference.
+- Test build:
+
+```
+cd nixpkgs/pkgs/applications/video/obs-studio/plugins
+nix build .#obs-studio-plugins.name-of-plugin --tarball-ttl 0
+```
+- Update `sha256` in `nixpkgs/pkgs/applications/video/obs-studio/plugins/name-of-plugin.nix`
+- Commit and squash.
+- Build again: `nix build .#obs-studio-plugins.name-of-plugin --tarball-ttl 0`
 - Does it look like an OBS Studio plugin: `tree result/`
-- Commit message for new OBS Studio plugins should be: `obs-studio-plugins.name-of-plugin: init at x.y.z` where x.y.z is the version number or commit reference.
 - Run `nixpkgs-review`: `nix run nixpkgs#nixpkgs-review rev HEAD`
 - You'll be dropped into a shell, copy the contents of `report.md` for pasting in your pull request to nixpkgs
   - **Do not copy/paste the snippet below**, it is just an example.
